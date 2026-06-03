@@ -12,7 +12,6 @@ use burn::{
     record::{FullPrecisionSettings, NamedMpkFileRecorder},
     tensor::activation::sigmoid,
 };
-use rand::seq::SliceRandom;
 
 fn read_dataset() -> (Vec<f32>, Vec<i32>) {
     let text = std::fs::read_to_string("datasets/wdbc.data").unwrap();
@@ -68,18 +67,10 @@ fn main() {
 
     let mut features =
         Tensor::<B, 1, Float>::from_floats(f.as_slice(), device).reshape([t.len(), 30]);
-    let mut targets = Tensor::<B, 1, Int>::from_ints(t.as_slice(), device).reshape([t.len(), 1]);
+    let targets = Tensor::<B, 1, Int>::from_ints(t.as_slice(), device).reshape([t.len(), 1]);
 
     drop(f);
     drop(t);
-
-    let mut indices = (0..targets.dims()[0]).collect::<Vec<usize>>();
-    indices.shuffle(&mut rand::rng());
-
-    let indices = Tensor::<B, 1, Int>::from_ints(indices.as_slice(), device);
-
-    features = features.select(0, indices.clone());
-    targets = targets.select(0, indices);
 
     // normaliza os dados
     let mean = features.clone().mean_dim(0);

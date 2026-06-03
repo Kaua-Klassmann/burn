@@ -5,4 +5,3 @@ edition = "2024"
 
 [dependencies]
 burn = { version = "0.21.0", default-features = false, features = ["train", "wgpu"] }
-rand = "0.10.1"

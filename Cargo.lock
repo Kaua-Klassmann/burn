@@ -2472,7 +2472,6 @@ name = "ia"
 version = "0.1.0"
 dependencies = [
  "burn",
- "rand 0.10.1",
 ]
 
 [[package]]
